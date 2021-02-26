@@ -3,5 +3,8 @@ export default function styles(theme) {
     pageContainer: {
       padding: 40,
     },
+    gridRoot: {
+      flexGrow: 1,
+    },
   }
 }

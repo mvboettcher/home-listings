@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import AppHeader from './components/AppHeader/AppHeader.component'
 import HomeListingCard from './components/HomeListingCard/HomeListingCard.component'
@@ -17,9 +17,13 @@ function App({ classes }) {
         <Typography variant="h5" style={{ marginBottom: 40 }}>
           {listings.length} homes available
         </Typography>
-        {listings.map((listing, index) => (
-          <HomeListingCard listing={listing} key={index} />
-        ))}
+        <Grid container className={classes.gridRoot} spacing={2}>
+          {listings.map((listing, index) => (
+            <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
+              <HomeListingCard listing={listing} />
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </div>
   )

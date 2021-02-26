@@ -2,7 +2,7 @@ export default function styles(theme) {
   return {
     root: {
       maxWidth: 420,
-      paddingBottom: 20,
+      height: 400,
       borderRadius: 0,
     },
     media: {
