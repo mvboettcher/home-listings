@@ -11,5 +11,14 @@ export default function styles(theme) {
     gridContainer: {
       flexGrow: 1,
     },
+    loadBtn: {
+      paddingLeft: 100,
+      paddingRight: 100,
+      paddingTop: 16,
+      paddingBottom: 16,
+      marginTop: 40,
+      marginBottom: 40,
+      borderRadius: 8,
+    },
   }
 }
