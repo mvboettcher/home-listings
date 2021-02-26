@@ -17,9 +17,17 @@ function App({ classes }) {
         <Typography variant="h5" style={{ marginBottom: 40 }}>
           {listings.length} homes available
         </Typography>
-        <Grid container className={classes.gridRoot} spacing={2}>
+        <Grid container className={classes.gridContainer} spacing={2}>
           {listings.map((listing, index) => (
-            <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
+            <Grid
+              item
+              justify="center"
+              xs={12}
+              sm={6}
+              lg={4}
+              xl={3}
+              key={index}
+            >
               <HomeListingCard listing={listing} />
             </Grid>
           ))}
