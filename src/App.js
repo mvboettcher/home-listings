@@ -17,7 +17,7 @@ function App({ classes }) {
         <Typography variant="h5" style={{ marginBottom: 40 }}>
           {listings.length} homes available
         </Typography>
-        <Grid container className={classes.gridContainer} spacing={2}>
+        <Grid container className={classes.gridContainer} spacing={4}>
           {listings.map((listing, index) => (
             <Grid
               item

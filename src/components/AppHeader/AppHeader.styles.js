@@ -4,5 +4,10 @@ export default function styles(theme) {
       backgroundColor: '#fff',
       padding: 20,
     },
+    toolBar: {
+      [theme.breakpoints.down('sm')]: {
+        justifyContent: 'center',
+      },
+    },
   }
 }
