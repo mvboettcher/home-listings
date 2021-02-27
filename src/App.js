@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { Typography, Grid, Box, Button } from '@material-ui/core'
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import { withStyles } from '@material-ui/core/styles'
 import AppHeader from './components/AppHeader/AppHeader.component'
 import HomeListingCard from './components/HomeListingCard/HomeListingCard.component'
-import homeListings from './homeListings.json'
+import SortMenu from './components/SortMenu/SortMenu.component'
 import styles from './App.styles'
+import homeListings from './homeListings.json'
 
 function App({ classes }) {
-  const [data, setData] = useState(homeListings)
+  const [data] = useState(homeListings)
   const [endIndex, setEndIndex] = useState(9)
   const [sortDescending, setSortDescending] = useState(true)
 
@@ -43,25 +42,10 @@ function App({ classes }) {
           <Typography variant="h5" className={classes.listingCount}>
             {listings.length} homes available
           </Typography>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body2" color="textSecondary">
-              SORT BY
-            </Typography>
-            <Button
-              variant="outlined"
-              className={classes.sortByBtn}
-              endIcon={
-                sortDescending ? (
-                  <ArrowDropDownIcon color="primary" />
-                ) : (
-                  <ArrowDropUpIcon color="primary" />
-                )
-              }
-              onClick={handleSortBy}
-            >
-              Price: {sortDescending ? 'High to low' : 'Low to high'}
-            </Button>
-          </div>
+          <SortMenu
+            sortDescending={sortDescending}
+            handleSortBy={handleSortBy}
+          />
         </div>
         <Grid container className={classes.gridContainer} spacing={4}>
           {listings.map((listing, index) => (

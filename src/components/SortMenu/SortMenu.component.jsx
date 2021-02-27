@@ -1,41 +1,30 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import { Button, Typography } from '@material-ui/core'
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import { withStyles } from '@material-ui/core'
 import styles from './SortMenu.styles'
 
-function SortMenu({ classes }) {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
+function SortMenu({ classes, sortDescending, handleSortBy }) {
   return (
-    <div>
+    <div className={classes.container}>
+      <Typography variant="body2" color="textSecondary">
+        SORT BY
+      </Typography>
       <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
+        variant="outlined"
+        className={classes.sortByBtn}
+        endIcon={
+          sortDescending ? (
+            <ArrowDropDownIcon color="primary" />
+          ) : (
+            <ArrowDropUpIcon color="primary" />
+          )
+        }
+        onClick={handleSortBy}
       >
-        Open Menu
+        Price: {sortDescending ? 'High to low' : 'Low to high'}
       </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
     </div>
   )
 }

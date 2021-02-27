@@ -22,10 +22,6 @@ export default function styles(theme) {
         marginBottom: 20,
       },
     },
-    sortByBtn: {
-      borderRadius: 0,
-      marginLeft: 10,
-    },
     gridContainer: {
       flexGrow: 1,
     },
