@@ -8,6 +8,24 @@ export default function styles(theme) {
         padding: 40,
       },
     },
+    pageHeader: {
+      marginBottom: 40,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+      },
+    },
+    listingCount: {
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: 20,
+      },
+    },
+    sortByBtn: {
+      borderRadius: 0,
+      marginLeft: 10,
+    },
     gridContainer: {
       flexGrow: 1,
     },
