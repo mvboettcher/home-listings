@@ -2,9 +2,10 @@ export default function styles(theme) {
   return {
     root: {
       maxWidth: 420,
-      height: 400,
       borderRadius: 0,
-      cursor: 'pointer',
+    },
+    actionArea: {
+      paddingBottom: 20,
     },
     media: {
       height: 240,
