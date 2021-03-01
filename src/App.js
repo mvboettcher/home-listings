@@ -21,24 +21,30 @@ function App({ classes }) {
   const [endIndex, setEndIndex] = useState(9)
 
   useEffect(() => {
-    fetchListings().then((data) => {
-      const sortedListings = data.sort((a, b) => {
-        if (sortDescending) {
-          return b.startingPrice - a.startingPrice
-        }
-        return a.startingPrice - b.startingPrice
+    fetchListings()
+      .then((data) => {
+        const sortedListings = data.sort((a, b) => {
+          if (sortDescending) {
+            return b.startingPrice - a.startingPrice
+          }
+          return a.startingPrice - b.startingPrice
+        })
+
+        setListings(sortedListings)
       })
-
-      setListings(sortedListings)
-
-      setTimeout(() => {
+      .catch((err) => {
+        console.log(
+          'Unable to retreive home listings.  Make sure API is running'
+        )
         setLoading(false)
-      }, 2000)
-    })
+      })
   }, [sortDescending])
 
   useEffect(() => {
     setVisibleListings(listings.slice(0, endIndex))
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
   }, [listings, endIndex])
 
   function handleSortBy() {
@@ -80,7 +86,11 @@ function App({ classes }) {
             ))}
           </Grid>
           <Box
-            display={endIndex === listings.length ? 'none' : 'block'}
+            display={
+              listings.length === 0 || endIndex === listings.length
+                ? 'none'
+                : 'block'
+            }
             style={{ textAlign: 'center' }}
           >
             <Button
