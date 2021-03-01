@@ -7,6 +7,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
+    fontFamily: ['Source Sans Pro', 'sans-serif'].join(),
     fontSize: 13,
     button: {
       textTransform: 'none',

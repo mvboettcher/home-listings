@@ -40,8 +40,8 @@ export default function styles(theme) {
     loadBtn: {
       paddingLeft: 100,
       paddingRight: 100,
-      paddingTop: 16,
-      paddingBottom: 16,
+      paddingTop: 12,
+      paddingBottom: 12,
       marginTop: 40,
       marginBottom: 40,
       borderRadius: 8,
