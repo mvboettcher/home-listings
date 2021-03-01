@@ -23,7 +23,51 @@ function App({ classes }) {
   const [beds, setBeds] = useState(1)
   const [baths, setBaths] = useState(1)
 
-  function getListings() {
+  // function getListings() {
+  //   fetchListings()
+  //     .then((data) => {
+  //       const sortedListings = data.sort((a, b) => {
+  //         if (sortDescending) {
+  //           return b.startingPrice - a.startingPrice
+  //         }
+  //         return a.startingPrice - b.startingPrice
+  //       })
+
+  //       setListings(sortedListings)
+  //     })
+  //     .catch((err) => {
+  //       console.log(
+  //         'Unable to retreive home listings.  Make sure API is running'
+  //       )
+  //       setLoading(false)
+  //     })
+  // }
+
+  // function updateFilteredListings() {
+  //   const filteredListings = listings.filter(
+  //     (listing) => listing.baths >= baths && listing.beds >= beds
+  //   )
+
+  //   setFilteredListings(filteredListings)
+  //   setTimeout(() => {
+  //     setLoading(false)
+  //   }, 2000)
+  // }
+
+  function handleSortBy() {
+    setSortDescending(!sortDescending)
+  }
+
+  function loadMore() {
+    const diff = listings.length - endIndex
+    if (diff >= 3) {
+      setEndIndex(endIndex + 3)
+    } else {
+      setEndIndex(endIndex + diff)
+    }
+  }
+
+  useEffect(() => {
     fetchListings()
       .then((data) => {
         const sortedListings = data.sort((a, b) => {
@@ -41,9 +85,9 @@ function App({ classes }) {
         )
         setLoading(false)
       })
-  }
+  }, [sortDescending])
 
-  function updateFilteredListings() {
+  useEffect(() => {
     const filteredListings = listings.filter(
       (listing) => listing.baths >= baths && listing.beds >= beds
     )
@@ -52,27 +96,6 @@ function App({ classes }) {
     setTimeout(() => {
       setLoading(false)
     }, 2000)
-  }
-
-  function handleSortBy() {
-    setSortDescending(!sortDescending)
-  }
-
-  function loadMore() {
-    const diff = listings.length - endIndex
-    if (diff >= 3) {
-      setEndIndex(endIndex + 3)
-    } else {
-      setEndIndex(endIndex + diff)
-    }
-  }
-
-  useEffect(() => {
-    getListings()
-  }, [sortDescending])
-
-  useEffect(() => {
-    updateFilteredListings()
   }, [listings, beds, baths])
 
   return (
@@ -109,7 +132,6 @@ function App({ classes }) {
           <Box
             display={
               filteredListings.length === 0 ||
-              endIndex === listings.length ||
               endIndex >= filteredListings.length
                 ? 'none'
                 : 'block'
