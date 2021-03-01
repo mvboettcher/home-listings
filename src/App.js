@@ -20,6 +20,19 @@ function App({ classes }) {
   const [sortDescending, setSortDescending] = useState(true)
   const [endIndex, setEndIndex] = useState(9)
 
+  function handleSortBy() {
+    setSortDescending(!sortDescending)
+  }
+
+  function loadMore() {
+    const diff = listings.length - endIndex
+    if (diff >= 3) {
+      setEndIndex(endIndex + 3)
+    } else {
+      setEndIndex(endIndex + diff)
+    }
+  }
+
   useEffect(() => {
     fetchListings()
       .then((data) => {
@@ -29,7 +42,6 @@ function App({ classes }) {
           }
           return a.startingPrice - b.startingPrice
         })
-
         setListings(sortedListings)
       })
       .catch((err) => {
@@ -46,19 +58,6 @@ function App({ classes }) {
       setLoading(false)
     }, 2000)
   }, [listings, endIndex])
-
-  function handleSortBy() {
-    setSortDescending(!sortDescending)
-  }
-
-  function loadMore() {
-    const diff = listings.length - endIndex
-    if (diff >= 3) {
-      setEndIndex(endIndex + 3)
-    } else {
-      setEndIndex(endIndex + diff)
-    }
-  }
 
   return (
     <>
