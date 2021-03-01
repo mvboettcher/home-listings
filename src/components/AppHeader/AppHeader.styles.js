@@ -5,7 +5,7 @@ export default function styles(theme) {
       padding: 20,
     },
     toolBar: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
     },

@@ -1,11 +1,23 @@
 export default function styles(theme) {
   return {
-    pageContainer: {
+    loadingContainer: {
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    listingsContainer: {
       [theme.breakpoints.up('xs')]: {
         padding: 20,
+        paddingTop: 120,
+      },
+      [theme.breakpoints.up('sm')]: {
+        padding: 20,
+        paddingTop: 140,
       },
       [theme.breakpoints.up('lg')]: {
         padding: 40,
+        paddingTop: 140,
       },
     },
     pageHeader: {
