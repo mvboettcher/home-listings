@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import styles from './HomeListingCard.styles'
+import imagePlaceholder from '../../assets/home-image-placeholder.jpg'
 
 function HomeListingCard({ classes, listing }) {
   const {
@@ -29,13 +30,19 @@ function HomeListingCard({ classes, listing }) {
     return numArr.join('')
   }
 
+  const handleImageError = (e) => {
+    e.target.src = imagePlaceholder
+  }
+
   return (
     <Card className={classes.root}>
       <CardActionArea className={classes.actionArea}>
         <CardMedia
+          component="img"
           className={classes.media}
-          image={imageURL}
+          src={imageURL}
           title={homeName}
+          onError={handleImageError}
         />
         <CardContent>
           <Typography gutterBottom variant="h4" component="h2">
