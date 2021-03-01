@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles'
 import AppHeader from './components/AppHeader/AppHeader.component'
 import HomeListingCard from './components/HomeListingCard/HomeListingCard.component'
 import SortMenu from './components/SortMenu/SortMenu.component'
+import FilterMenu from './components/FilterMenu/FilterMenu.componet'
 import styles from './App.styles'
 import fetchListings from './api'
 
@@ -17,8 +18,41 @@ function App({ classes }) {
   const [loading, setLoading] = useState(true)
   const [listings, setListings] = useState([])
   const [visibleListings, setVisibleListings] = useState([])
-  const [sortDescending, setSortDescending] = useState(true)
   const [endIndex, setEndIndex] = useState(9)
+  const [sortDescending, setSortDescending] = useState(true)
+  const [beds, setBeds] = useState(1)
+  const [baths, setBaths] = useState(1)
+
+  function getListings() {
+    fetchListings()
+      .then((data) => {
+        const sortedListings = data.sort((a, b) => {
+          if (sortDescending) {
+            return b.startingPrice - a.startingPrice
+          }
+          return a.startingPrice - b.startingPrice
+        })
+
+        setListings(sortedListings)
+      })
+      .catch((err) => {
+        console.log(
+          'Unable to retreive home listings.  Make sure API is running'
+        )
+        setLoading(false)
+      })
+  }
+
+  function updateVisibleListings() {
+    const filteredListings = listings
+      .filter((listing) => listing.baths >= baths && listing.beds >= beds)
+      .slice(0, endIndex)
+
+    setVisibleListings(filteredListings)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }
 
   function handleSortBy() {
     setSortDescending(!sortDescending)
@@ -34,30 +68,12 @@ function App({ classes }) {
   }
 
   useEffect(() => {
-    fetchListings()
-      .then((data) => {
-        const sortedListings = data.sort((a, b) => {
-          if (sortDescending) {
-            return b.startingPrice - a.startingPrice
-          }
-          return a.startingPrice - b.startingPrice
-        })
-        setListings(sortedListings)
-      })
-      .catch((err) => {
-        console.log(
-          'Unable to retreive home listings.  Make sure API is running'
-        )
-        setLoading(false)
-      })
+    getListings()
   }, [sortDescending])
 
   useEffect(() => {
-    setVisibleListings(listings.slice(0, endIndex))
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [listings, endIndex])
+    updateVisibleListings()
+  }, [listings, endIndex, beds, baths])
 
   return (
     <>
@@ -72,6 +88,12 @@ function App({ classes }) {
             <Typography variant="h5" className={classes.listingCount}>
               {listings.length} homes available
             </Typography>
+            <FilterMenu
+              beds={beds}
+              setBeds={setBeds}
+              baths={baths}
+              setBaths={setBaths}
+            />
             <SortMenu
               sortDescending={sortDescending}
               handleSortBy={handleSortBy}
@@ -86,7 +108,7 @@ function App({ classes }) {
           </Grid>
           <Box
             display={
-              listings.length === 0 || endIndex === listings.length
+              visibleListings.length === 0 || endIndex === listings.length
                 ? 'none'
                 : 'block'
             }
