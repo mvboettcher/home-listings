@@ -36,7 +36,7 @@ function HomeListingCard({ classes, listing }) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea className={classes.actionArea}>
+      <CardActionArea disableRipple className={classes.actionArea}>
         <CardMedia
           component="img"
           className={classes.media}
