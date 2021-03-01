@@ -8,7 +8,7 @@ function AppHeader({ classes }) {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
-        <img src={claytonLogo} alt="company button" height="34" />
+        <img src={claytonLogo} alt="clayton homes" height="34" />
       </Toolbar>
     </AppBar>
   )
