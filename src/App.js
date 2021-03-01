@@ -16,6 +16,7 @@ import fetchListings from './api'
 function App({ classes }) {
   const [loading, setLoading] = useState(true)
   const [listings, setListings] = useState([])
+  const [visibleListings, setVisibleListings] = useState([])
   const [sortDescending, setSortDescending] = useState(true)
   const [endIndex, setEndIndex] = useState(9)
 
@@ -35,6 +36,10 @@ function App({ classes }) {
       }, 2000)
     })
   }, [sortDescending])
+
+  useEffect(() => {
+    setVisibleListings(listings.slice(0, endIndex))
+  }, [listings, endIndex])
 
   function handleSortBy() {
     setSortDescending(!sortDescending)
@@ -68,7 +73,7 @@ function App({ classes }) {
             />
           </div>
           <Grid container className={classes.gridContainer} spacing={4}>
-            {listings.slice(0, endIndex).map((listing, index) => (
+            {visibleListings.map((listing, index) => (
               <Grid item xs={12} sm={6} lg={4} xl={3} key={index}>
                 <HomeListingCard listing={listing} />
               </Grid>
