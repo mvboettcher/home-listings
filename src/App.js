@@ -19,36 +19,35 @@ function App({ classes }) {
   const [sortDescending, setSortDescending] = useState(true)
   const [endIndex, setEndIndex] = useState(9)
 
-  const displayedListings = listings
-    .sort((a, b) => {
-      if (sortDescending) {
-        return b.startingPrice - a.startingPrice
-      }
-      return a.startingPrice - b.startingPrice
+  useEffect(() => {
+    fetchListings().then((data) => {
+      const sortedListings = data.sort((a, b) => {
+        if (sortDescending) {
+          return b.startingPrice - a.startingPrice
+        }
+        return a.startingPrice - b.startingPrice
+      })
+
+      setListings(sortedListings)
+
+      setTimeout(() => {
+        setLoading(false)
+      }, 2000)
     })
-    .slice(0, endIndex)
+  }, [sortDescending])
 
   function handleSortBy() {
     setSortDescending(!sortDescending)
   }
 
   function loadMore() {
-    const diff = listings.length - displayedListings.length
+    const diff = listings.length - endIndex
     if (diff >= 3) {
       setEndIndex(endIndex + 3)
     } else {
       setEndIndex(endIndex + diff)
     }
   }
-
-  useEffect(() => {
-    fetchListings().then((res) => {
-      setListings(res)
-      setTimeout(() => {
-        setLoading(false)
-      }, 2000)
-    })
-  }, [])
 
   return (
     <>
@@ -69,7 +68,7 @@ function App({ classes }) {
             />
           </div>
           <Grid container className={classes.gridContainer} spacing={4}>
-            {displayedListings.map((listing, index) => (
+            {listings.slice(0, endIndex).map((listing, index) => (
               <Grid item xs={12} sm={6} lg={4} xl={3} key={index}>
                 <HomeListingCard listing={listing} />
               </Grid>
