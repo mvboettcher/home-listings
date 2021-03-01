@@ -23,37 +23,6 @@ function App({ classes }) {
   const [beds, setBeds] = useState(1)
   const [baths, setBaths] = useState(1)
 
-  // function getListings() {
-  //   fetchListings()
-  //     .then((data) => {
-  //       const sortedListings = data.sort((a, b) => {
-  //         if (sortDescending) {
-  //           return b.startingPrice - a.startingPrice
-  //         }
-  //         return a.startingPrice - b.startingPrice
-  //       })
-
-  //       setListings(sortedListings)
-  //     })
-  //     .catch((err) => {
-  //       console.log(
-  //         'Unable to retreive home listings.  Make sure API is running'
-  //       )
-  //       setLoading(false)
-  //     })
-  // }
-
-  // function updateFilteredListings() {
-  //   const filteredListings = listings.filter(
-  //     (listing) => listing.baths >= baths && listing.beds >= beds
-  //   )
-
-  //   setFilteredListings(filteredListings)
-  //   setTimeout(() => {
-  //     setLoading(false)
-  //   }, 2000)
-  // }
-
   function handleSortBy() {
     setSortDescending(!sortDescending)
   }
