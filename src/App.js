@@ -17,7 +17,7 @@ import fetchListings from './api'
 function App({ classes }) {
   const [loading, setLoading] = useState(true)
   const [listings, setListings] = useState([])
-  const [visibleListings, setVisibleListings] = useState([])
+  const [filteredListings, setFilteredListings] = useState([])
   const [endIndex, setEndIndex] = useState(9)
   const [sortDescending, setSortDescending] = useState(true)
   const [beds, setBeds] = useState(1)
@@ -43,12 +43,12 @@ function App({ classes }) {
       })
   }
 
-  function updateVisibleListings() {
-    const filteredListings = listings
-      .filter((listing) => listing.baths >= baths && listing.beds >= beds)
-      .slice(0, endIndex)
+  function updateFilteredListings() {
+    const filteredListings = listings.filter(
+      (listing) => listing.baths >= baths && listing.beds >= beds
+    )
 
-    setVisibleListings(filteredListings)
+    setFilteredListings(filteredListings)
     setTimeout(() => {
       setLoading(false)
     }, 2000)
@@ -72,8 +72,8 @@ function App({ classes }) {
   }, [sortDescending])
 
   useEffect(() => {
-    updateVisibleListings()
-  }, [listings, endIndex, beds, baths])
+    updateFilteredListings()
+  }, [listings, beds, baths])
 
   return (
     <>
@@ -86,7 +86,7 @@ function App({ classes }) {
         <div className={classes.listingsContainer}>
           <div className={classes.pageHeader}>
             <Typography variant="h5" className={classes.listingCount}>
-              {listings.length} homes available
+              {filteredListings.length} homes available
             </Typography>
             <FilterMenu
               beds={beds}
@@ -100,7 +100,7 @@ function App({ classes }) {
             />
           </div>
           <Grid container className={classes.gridContainer} spacing={4}>
-            {visibleListings.map((listing, index) => (
+            {filteredListings.slice(0, endIndex).map((listing, index) => (
               <Grid item xs={12} sm={6} lg={4} xl={3} key={index}>
                 <HomeListingCard listing={listing} />
               </Grid>
@@ -108,7 +108,9 @@ function App({ classes }) {
           </Grid>
           <Box
             display={
-              visibleListings.length === 0 || endIndex === listings.length
+              filteredListings.length === 0 ||
+              endIndex === listings.length ||
+              endIndex >= filteredListings.length
                 ? 'none'
                 : 'block'
             }
