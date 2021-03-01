@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Typography, Grid, Box, Button } from '@material-ui/core'
+import {
+  Typography,
+  Grid,
+  Box,
+  Button,
+  CircularProgress,
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import AppHeader from './components/AppHeader/AppHeader.component'
 import HomeListingCard from './components/HomeListingCard/HomeListingCard.component'
@@ -8,43 +14,51 @@ import styles from './App.styles'
 import fetchListings from './api'
 
 function App({ classes }) {
-  const [listings, setListings] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [listings, setListings] = useState([])
   const [sortDescending, setSortDescending] = useState(true)
   const [endIndex, setEndIndex] = useState(9)
+
+  const displayedListings = listings
+    .sort((a, b) => {
+      if (sortDescending) {
+        return b.startingPrice - a.startingPrice
+      }
+      return a.startingPrice - b.startingPrice
+    })
+    .slice(0, endIndex)
+
+  function handleSortBy() {
+    setSortDescending(!sortDescending)
+  }
+
+  function loadMore() {
+    const diff = listings.length - displayedListings.length
+    if (diff >= 3) {
+      setEndIndex(endIndex + 3)
+    } else {
+      setEndIndex(endIndex + diff)
+    }
+  }
 
   useEffect(() => {
     fetchListings().then((res) => {
       setListings(res)
+      setTimeout(() => {
+        setLoading(false)
+      }, 2000)
     })
   }, [])
 
-  if (listings) {
-    const displayedListings = listings
-      .sort((a, b) => {
-        if (sortDescending) {
-          return b.startingPrice - a.startingPrice
-        }
-        return a.startingPrice - b.startingPrice
-      })
-      .slice(0, endIndex)
-
-    function handleSortBy() {
-      setSortDescending(!sortDescending)
-    }
-
-    function loadMore() {
-      const diff = listings.length - displayedListings.length
-      if (diff >= 3) {
-        setEndIndex(endIndex + 3)
-      } else {
-        setEndIndex(endIndex + diff)
-      }
-    }
-
-    return (
-      <div>
-        <AppHeader />
-        <div className={classes.pageContainer}>
+  return (
+    <>
+      <AppHeader />
+      {loading ? (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <div className={classes.listingsContainer}>
           <div className={classes.pageHeader}>
             <Typography variant="h5" className={classes.listingCount}>
               {listings.length} homes available
@@ -75,11 +89,9 @@ function App({ classes }) {
             </Button>
           </Box>
         </div>
-      </div>
-    )
-  } else {
-    return <div>LOADING...</div>
-  }
+      )}
+    </>
+  )
 }
 
 export default withStyles(styles)(App)
