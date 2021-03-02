@@ -99,12 +99,7 @@ function App({ classes }) {
             ))}
           </Grid>
           <Box
-            display={
-              filteredListings.length === 0 ||
-              endIndex >= filteredListings.length
-                ? 'none'
-                : 'block'
-            }
+            display={endIndex >= filteredListings.length ? 'none' : 'block'}
             style={{ textAlign: 'center' }}
           >
             <Button
